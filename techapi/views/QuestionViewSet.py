@@ -1,3 +1,4 @@
+from techapi.models.answer import Answer
 from django.http.response import HttpResponse
 from rest_framework.decorators import action
 from techapi.models import Question, Type
@@ -13,13 +14,17 @@ import json
 
 class QuestionViewSet(ViewSet):
 ## Basic fetches
-    # def retrieve(self, request, pk):
-    #     priority_user = PriorityUser.objects.get(user=request.auth.user)
-    #     affirmations = Affirmation.objects.filter(priority_id=pk)
-    #     for affirmation in affirmations:
-    #         affirmation.is_author = priority_user == affirmation.priority_user
-    #     affirmations_serialized = AffirmationSerializer(affirmations, many=True, context={'request': request})
-    #     return Response(affirmations_serialized.data, status=status.HTTP_200_OK)
+    def retrieve(self, request, pk):
+        response = {}
+        question = Question.objects.get(pk=pk)
+        question_dict = QuestionSerializer(question, many=False, context={'request': request}).data
+        response['question'] = question_dict
+        # answers = Answer.objects.filter(question_id=question.id)
+        # answers_list = AnswerSerializer(question, many=True, context={'request': request}).data
+        # for answer in answers:
+        #     answer.is_author = priority_user == answer.priority_user
+        # affirmations_serialized = AffirmationSerializer(affirmations, many=True, context={'request': request})
+        return Response(response, status=status.HTTP_200_OK)
     def create(self, request):
         new_question = Question()
         new_question.type = request.data['type_id']
@@ -42,4 +47,9 @@ class QuestionSerializer(serializers.ModelSerializer):
     type = TypeSerializer(many=False)
     class Meta:
         model = Question
-        fields = ('id', 'type', 'question_text', 'question_display_text', 'required')
+        fields = ('id', 'type', 'question_text', 'question_display_text', 'required', 'answer_set')
+class AnswerSerializer(serializers.ModelSerializer):
+    question = QuestionSerializer(many=False)
+    class Meta:
+        model = Answer
+        fields = ('id', 'question', 'answer_value')
