@@ -29,6 +29,13 @@ class QuestionViewSet(ViewSet):
         new_question.save()
         serializer = QuestionSerializer(new_question, many=False, context={'request': request})
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    def update(self, request, pk):
+        question = Question.objects.get(pk=pk)
+        question.type_id = request.data['type_id']
+        question.question_text = request.data['question_text']
+        question.required = request.data['required']
+        question.save()
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
 
 class TypeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -39,6 +46,7 @@ class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields = ('id', 'type', 'question_text', 'required')
+        depth = 1
 class AnswerSerializer(serializers.ModelSerializer):
     question = QuestionSerializer(many=False)
     class Meta:

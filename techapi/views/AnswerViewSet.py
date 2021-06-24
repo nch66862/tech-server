@@ -12,14 +12,6 @@ from django.utils import timezone
 import json
 
 class AnswerViewSet(ViewSet):
-## Basic fetches
-    # def retrieve(self, request, pk):
-    #     priority_user = PriorityUser.objects.get(user=request.auth.user)
-    #     affirmations = Affirmation.objects.filter(priority_id=pk)
-    #     for affirmation in affirmations:
-    #         affirmation.is_author = priority_user == affirmation.priority_user
-    #     affirmations_serialized = AffirmationSerializer(affirmations, many=True, context={'request': request})
-    #     return Response(affirmations_serialized.data, status=status.HTTP_200_OK)
     def create(self, request):
         new_answer = Answer()
         new_answer.question_id = request.data['question_id']
@@ -28,11 +20,6 @@ class AnswerViewSet(ViewSet):
         new_answer.save()
         serializer = AnswerSerializer(new_answer, many=False, context={'request': request})
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    # def destroy(self, request, pk):
-    #     affirmation = Affirmation.objects.get(pk=pk)
-    #     affirmation.delete()
-    #     return Response({}, status=status.HTTP_204_NO_CONTENT)
-    # def list(self, request):
 
 class TypeSerializer(serializers.ModelSerializer):
     class Meta:
