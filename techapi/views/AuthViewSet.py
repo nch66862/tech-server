@@ -4,11 +4,12 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from django.views.decorators.csrf import csrf_exempt
-from priorityapi.models import PriorityUser, Priority, What
+from techapi.models import TechUser
 
 @csrf_exempt
 def login_user(request):
-    '''Handles the authentication of a rare user
+    '''
+    Handles the authentication of a tech user
 
     Method arguments:
       request -- The full HTTP request object
@@ -58,23 +59,16 @@ def register_user(request):
         is_staff=True
     )
 
-    # Now save the extra info in the levelupapi_gamer table
-
-    new_priority_user = PriorityUser.objects.create(
+    new_tech_user = TechUser.objects.create(
         user=new_user
     )
 
-    new_priority = Priority.objects.create(
-        priority_user=new_priority_user,
-        priority=req_body['priority'],
-        why=req_body['why'],
-        how=req_body['how']
-    )
-
-    What.objects.create(
-        priority=new_priority,
-        what=req_body['what']
-    )
+    # new_priority = Priority.objects.create(
+    #     priority_user=new_priority_user,
+    #     priority=req_body['priority'],
+    #     why=req_body['why'],
+    #     how=req_body['how']
+    # )
 
     # Use the REST Framework's token generator on the new user account
     token = Token.objects.create(user=new_user)
