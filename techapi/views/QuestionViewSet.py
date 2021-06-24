@@ -47,7 +47,7 @@ class QuestionSerializer(serializers.ModelSerializer):
     type = TypeSerializer(many=False)
     class Meta:
         model = Question
-        fields = ('id', 'type', 'question_text', 'question_display_text', 'required', 'answer_set')
+        fields = ('id', 'type', 'question_text', 'required', 'answer_set')
 class AnswerSerializer(serializers.ModelSerializer):
     question = QuestionSerializer(many=False)
     class Meta:
