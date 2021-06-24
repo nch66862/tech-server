@@ -1,0 +1,38 @@
+[
+{
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$260000$q3BEXMpUKnYAvBHPacXWaZ$8NojjgqmeYh0tX8b82dTwo26IfuZPg2xiajyGWrTCtk=",
+        "last_login": null,
+        "is_superuser": true,
+        "username": "nick@nickcarver.com",
+        "first_name": "Nick",
+        "last_name": "Carver",
+        "email": "nick@nickcarver.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2021-06-01T19:12:13.676Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$260000$q3BEXMpUKnYAvBHPacXWaZ$8NojjgqmeYh0tX8b82dTwo26IfuZPg2xiajyGWrTCtk=",
+        "last_login": "2021-06-10T19:13:34.361Z",
+        "is_superuser": true,
+        "username": "logan@loganlanning.com",
+        "first_name": "Logan",
+        "last_name": "Lanning",
+        "email": "logan@loganlanning.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2021-06-10T19:12:53.825Z",
+        "groups": [],
+        "user_permissions": []
+    }
+}
+]
