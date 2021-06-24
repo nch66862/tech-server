@@ -17,9 +17,14 @@ from django.contrib import admin
 from django.conf.urls import include
 from django.urls import path
 from rest_framework import routers
-from techapi.views import register_user, login_user
+from techapi.views import (register_user, login_user,
+                            AnswerViewSet, QuestionViewSet,
+                            TypeViewSet
+                            )
 router = routers.DefaultRouter(trailing_slash=False)
-# router.register(r'users', TechUserViewSet, 'user')
+router.register(r'questions', QuestionViewSet, 'question')
+router.register(r'answers', AnswerViewSet, 'answer')
+router.register(r'types', TypeViewSet, 'type')
 
 urlpatterns = [
     path('', include(router.urls)),
