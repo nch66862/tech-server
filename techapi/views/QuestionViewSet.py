@@ -1,6 +1,6 @@
 from django.http.response import HttpResponse
 from rest_framework.decorators import action
-from techapi.models import Question
+from techapi.models import Question, Type
 from django.contrib.auth.models import User
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
@@ -22,9 +22,9 @@ class QuestionViewSet(ViewSet):
     #     return Response(affirmations_serialized.data, status=status.HTTP_200_OK)
     def create(self, request):
         new_question = Question()
-        new_question.priority_user = PriorityUser.objects.get(user=request.auth.user)
-        new_question.priority_id = request.data['priority_id']
-        new_question.new_question = request.data['new_question']
+        new_question.type = request.data['type_id']
+        new_question.question_text = request.data['question_text']
+        new_question.required = request.data['required']
         new_question.save()
         serializer = QuestionSerializer(new_question, many=False, context={'request': request})
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -34,9 +34,12 @@ class QuestionViewSet(ViewSet):
     #     return Response({}, status=status.HTTP_204_NO_CONTENT)
     # def list(self, request):
 
+class TypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Type
+        fields = ('id', 'type')
 class QuestionSerializer(serializers.ModelSerializer):
-    priority_user = PriorityUserSerializer(many=False)
-    priority = PrioritySerializer(many=False)
+    type = TypeSerializer(many=False)
     class Meta:
         model = Question
         fields = ('id', 'type', 'question_text', 'question_display_text', 'required')
